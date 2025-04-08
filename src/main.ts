@@ -1,4 +1,4 @@
-import expess from "express";
+import express from "express";
 const app = express()
-app.use(expres.json())
+app.use(express.json())
 app.listen(3000)
