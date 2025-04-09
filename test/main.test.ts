@@ -6,6 +6,7 @@ test("Deve criar ordens de venda de ativo", async () => {
         type: "sell",
         quantity: 1000,
         price: 5.50,
+        owner: "a"
     }
     await axios.post("http://localhost:3000/orders", inputOrder);
     const responseGetOrders = await axios.get("http://localhost:3000/assets/USDC/orders");
