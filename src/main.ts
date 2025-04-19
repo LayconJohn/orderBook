@@ -16,7 +16,11 @@ app.post("/orders",  async (req: Request, res: Response) => {
 app.get("/assets/:assetCode/orders", async (req: Request, res: Response) => {
     const asset_code = req.params.assetCode;
     const orders = await connection.query("SELECT * from order_book.order WHERE asset_code = $1", [asset_code]);
-    res.json(orders)
+    for (const order of orders) {
+        order.quantity = parseFloat(order.quantity);
+        order.price = parseFloat(order.price);
+    }
+    res.json(orders);
 
 })
 
