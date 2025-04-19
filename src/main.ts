@@ -21,7 +21,12 @@ app.get("/assets/:assetCode/orders", async (req: Request, res: Response) => {
         order.price = parseFloat(order.price);
     }
     res.json(orders);
+})
 
+app.delete("/assets/:assetCode/orders",  async (req: Request, res: Response) => {
+    const asset_code = req.params.assetCode;
+    await connection.query("DELETE FROM orders_book.orders WHERE asset_code = $1", [asset_code]);
+    res.end();
 })
 
 app.listen(3000)
