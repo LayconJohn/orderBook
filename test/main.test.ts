@@ -121,3 +121,55 @@ test("Deve criar várias ordens de compra de ativo", async () => {
     expect(outputGetOrders[2].price).toBe(5.80);
     expect(outputGetOrders[2].owner).toBe("c");   
 });
+
+test("Deve criar ordens de venda e compra de ativo com preços iguais", async () => {
+    await axios.delete("http://localhost:3000/assets/USDC/orders");
+
+    const inputOrder1 = {
+        asset_code: "USDC",
+        type: "sell",
+        quantity: 1000,
+        price: 5.50,
+        owner: "a"
+    }
+    await axios.post("http://localhost:3000/orders", inputOrder1);
+
+    const inputOrder2 = {
+        asset_code: "USDC",
+        type: "buy",
+        quantity: 500,
+        price: 5.50,
+        owner: "b"
+    }
+    await axios.post("http://localhost:3000/orders", inputOrder2);
+
+    const responseGetOrders = await axios.get("http://localhost:3000/assets/USDC/orders");
+    const outputGetOrders = responseGetOrders.data;
+    expect(outputGetOrders).toHaveLength(0);      
+});
+
+test("Deve criar ordens de compra e venda de ativo com preços iguais", async () => {
+    await axios.delete("http://localhost:3000/assets/USDC/orders");
+
+    const inputOrder1 = {
+        asset_code: "USDC",
+        type: "buy",
+        quantity: 1000,
+        price: 5.50,
+        owner: "a"
+    }
+    await axios.post("http://localhost:3000/orders", inputOrder1);
+
+    const inputOrder2 = {
+        asset_code: "USDC",
+        type: "sell",
+        quantity: 500,
+        price: 5.50,
+        owner: "b"
+    }
+    await axios.post("http://localhost:3000/orders", inputOrder2);
+
+    const responseGetOrders = await axios.get("http://localhost:3000/assets/USDC/orders");
+    const outputGetOrders = responseGetOrders.data;
+    expect(outputGetOrders).toHaveLength(0);      
+});
